@@ -20,10 +20,14 @@
     <input type="submit" class="chat" value="chat"/>
 </form>
 <div id="box" class="box">
+</div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.js"></script>
     <script>
+
+
         var socket = io();
+
         $('#chat').on('submit', function(e){
             socket.emit('send message', $('#name').val(), $('#message').val());
             $('#message').val("");
@@ -36,7 +40,20 @@
         });
         socket.on('change name', function(name){
             $('#name').val(name);
+
         });
+
+        socket.on('in', function (name) {
+            $('#chatLog').append(name+'님이 접속하셨습니다.\n');
+            $('#chatLog').scrollTop($('#chatLog')[0].scrollHeight);
+        });
+
+        socket.on('out', function (name) {
+            $('#chatLog').append(name+'님이 나가셨습니다.\n');
+            $('#chatLog').scrollTop($('#chatLog')[0].scrollHeight);
+        });
+
     </script>
+
 </body>
 </html>
